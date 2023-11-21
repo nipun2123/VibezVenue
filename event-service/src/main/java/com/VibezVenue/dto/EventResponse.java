@@ -13,9 +13,8 @@ import java.sql.Time;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventRequest {
+public class EventResponse {
 
-    private String eventCode;
     private String eventTitle;
     private String description;
     private int capacity;
@@ -25,5 +24,4 @@ public class EventRequest {
     private Date endDate;
     private Time startTime;
     private Time endTime;
-    private long orgID;
 }
