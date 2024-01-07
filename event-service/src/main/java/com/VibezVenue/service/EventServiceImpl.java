@@ -65,11 +65,15 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public EventResponse getEventById(String eventId) {
-        Optional<Event> eventOptional = eventRepository.findById(Long.valueOf(eventId));
+    public EventResponse getEventByCode(String eventCode) {
+        if(eventCode != null){
+         eventCode = eventCode.trim();
+
+        Optional<Event> eventOptional = eventRepository.findByEventCode(eventCode);
         if (eventOptional.isPresent()){
             Event event = eventOptional.get();
             return EventResponse.builder()
+                    .eventCode(event.getEventCode())
                     .eventTitle(event.getEventTitle())
                     .description(event.getDescription())
                     .price(event.getPrice())
@@ -81,12 +85,13 @@ public class EventServiceImpl implements EventService{
                     .capacity(event.getCapacity())
                     .build();
         }
-
-        throw new RuntimeException("Event not found!! The id is "+ eventId);
+        }
+        throw new RuntimeException("Event not found!! The code is "+ eventCode);
     }
 
     private EventResponse mapToDto(Event event) {
         return EventResponse.builder()
+                .eventCode(event.getEventCode())
                 .eventTitle(event.getEventTitle())
                 .description(event.getDescription())
                 .price(event.getPrice())

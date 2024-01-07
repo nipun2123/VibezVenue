@@ -9,5 +9,5 @@ public interface EventService {
 
     void saveEvent(EventRequest eventRequest);
     List<EventResponse> getAllEvents();
-    EventResponse getEventById(String eventId);
+    EventResponse getEventByCode(String eventCode);
 }

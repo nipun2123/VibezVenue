@@ -15,6 +15,7 @@ import java.sql.Time;
 @NoArgsConstructor
 public class EventResponse {
 
+    private String eventCode;
     private String eventTitle;
     private String description;
     private int capacity;
