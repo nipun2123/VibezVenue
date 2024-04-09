@@ -19,6 +19,7 @@
     <modules>
         <module>event-service</module>
         <module>user-service</module>
+        <module>naming-service</module>
     </modules>
 
     <dependencies>
@@ -30,11 +31,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-docker-compose</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
     </dependencies>
@@ -57,8 +53,6 @@
                 <scope>import</scope>
             </dependency>
 
-
-
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -77,6 +71,7 @@
         <testcontainers.version>1.19.3</testcontainers.version>
         <junit-bom.version>5.7.2 </junit-bom.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
+
     </properties>
 
 </project>

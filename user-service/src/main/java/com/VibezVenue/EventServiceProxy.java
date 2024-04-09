@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "event-service", url = "localhost:8081/api/event")
+@FeignClient(name = "event-service")
 public interface EventServiceProxy {
 
     @GetMapping
