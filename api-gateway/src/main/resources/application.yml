@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: event_service
+          uri: lb://event-service
+          predicates:
+            - Path=/api/event/**
+        - id: user_service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/event/**
+        - id: eureka_service
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/web
+          filters:
+            - SetPath=/
+        - id: eureka_service_resources
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
+
