@@ -21,5 +21,13 @@ services:
     depends_on:
       - postgres
 
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+
 volumes:
   postgres-data:
+
+
+
