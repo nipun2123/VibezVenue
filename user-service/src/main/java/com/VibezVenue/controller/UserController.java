@@ -1,6 +1,7 @@
 package com.VibezVenue.controller;
 
 import com.VibezVenue.EventServiceProxy;
+import com.VibezVenue.config.KafkaProducerConfig;
 import com.VibezVenue.dto.EventResponse;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -19,10 +20,13 @@ import java.util.Optional;
 public class UserController {
 
     private final EventServiceProxy eventServiceProxy;
+    private final KafkaProducerConfig kafkaProducerConfig;
 
     @PostMapping
     @CircuitBreaker(name = "user")
     public String bookEvent(){
+
+        kafkaProducerConfig.kafkaTemplate().send("booking-success", "Event Booked! Oder number is 25323");
         return "Event Booked";
     }
 
