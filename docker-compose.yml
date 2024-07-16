@@ -24,8 +24,10 @@ services:
 
   zipkin:
     image: openzipkin/zipkin
+    container_name: zipkin
     ports:
       - "9411:9411"
+    restart: always
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -48,6 +50,77 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+
+  naming-server:
+    image: nipun2123/naming-service:1.0.0
+    container_name: naming-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+
+  api-gateway-server:
+    image: nipun2123/api-gateway:1.0.0
+    container_name: api-gateway-server
+    ports:
+      - "8765:8765"
+    expose:
+      - "8765"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE'
+    networks:
+      - vibzvenue-network
+    depends_on:
+      - zipkin
+      - naming-server
+
+  event-server:
+    image: nipun2123/event-service:1.0.0
+    container_name: event-server
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - postgres
+      - zipkin
+      - naming-server
+      - api-gateway-server
+
+  user-server:
+    image: nipun2123/user-service:1.0.0
+    container_name: user-server
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - event-server
+      - broker
+      - zipkin
+      - naming-server
+      - api-gateway-server
+
+
+  notification-server:
+    image: nipun2123/notification-server:1.0.0
+    container_name: notification-server
+    ports:
+      - "8787:8787"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - broker
+      - zipkin
+      - naming-server
+      - api-gateway-server
+
+networks:
+  vibzvenue-network:
 
 volumes:
   postgres-data:

@@ -1,5 +1,3 @@
-package com.VibezVenue;
-
 import com.VibezVenue.dto.EventRequest;
 import com.VibezVenue.dto.EventResponse;
 import jakarta.transaction.Transactional;

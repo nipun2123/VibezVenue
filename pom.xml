@@ -24,19 +24,14 @@
         <module>notification-server</module>
     </modules>
 
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-docker-compose</artifactId>
-        </dependency>
-
-
-
     </dependencies>
 
     <dependencyManagement>
@@ -77,5 +72,28 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
 
     </properties>
+
+  <build>
+      <plugins>
+       <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>3.4.2</version>
+          <configuration>
+              <from>
+                  <image>eclipse-temurin:17.0.4.1_1-jre</image>
+              </from>
+              <to>
+                  <image>registry.hub.docker.com/nipun2123/${project.artifactId}:1.0.0</image>
+                  <auth>
+                      <username>nipun2123</username>
+                      <password>nipun@Docker2123</password>
+                  </auth>
+              </to>
+
+          </configuration>
+       </plugin>
+      </plugins>
+  </build>
 
 </project>

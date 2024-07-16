@@ -4,11 +4,14 @@ import com.VibezVenue.dto.EventRequest;
 import com.VibezVenue.dto.EventResponse;
 import com.VibezVenue.model.Event;
 import com.VibezVenue.model.Org;
+import com.VibezVenue.repository.BookedEventRepository;
 import com.VibezVenue.repository.EventRepository;
 import com.VibezVenue.repository.OrgRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,13 +20,19 @@ import java.util.Optional;
 
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class EventServiceImpl implements EventService{
+@RequiredArgsConstructor
+public class EventServiceImpl implements EventService {
 
-    private final EventRepository eventRepository;
+    @Autowired
     private final OrgRepository orgRepository;
+
+    @Autowired
+    private final EventRepository eventRepository;
+
+    @Autowired
+    private final BookedEventRepository bookedEventRepository;
 
     @Transactional
     @Override
@@ -61,7 +70,10 @@ public class EventServiceImpl implements EventService{
     @Override
     public List<EventResponse> getAllEvents() {
         List<Event> allEvents = eventRepository.findAll();
-       return allEvents.stream().map(this::mapToDto).toList();
+        if(!allEvents.isEmpty()) {
+            return allEvents.stream().map(this::mapToDto).toList();
+        }
+        return null;
     }
 
     @Override
@@ -87,6 +99,28 @@ public class EventServiceImpl implements EventService{
         }
         }
         throw new RuntimeException("Event not found!! The code is "+ eventCode);
+    }
+
+    @Override
+    public int getAvailableTickets(String eventCode) {
+        if(eventCode != null) {
+            eventCode = eventCode.trim();
+
+            Optional<Event> eventOptional = eventRepository.findByEventCode(eventCode);
+            if (eventOptional.isPresent()) {
+
+               long soldTicketCount = bookedEventRepository.countByEvent(eventOptional.get());
+
+               int capacity = eventOptional.get().getCapacity();
+
+               return (int) (capacity - soldTicketCount);
+
+
+            }
+
+        }
+
+        return -1;
     }
 
     private EventResponse mapToDto(Event event) {

@@ -20,4 +20,8 @@ public interface EventServiceProxy {
     @GetMapping("/{eventcode}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<EventResponse> findEventByCode(@PathVariable("eventcode")String eventCode);
+
+    @GetMapping("/available/{eventcode}")
+    @ResponseStatus(HttpStatus.OK)
+    public int avilableTickets(@PathVariable("eventcode")String eventCode);
 }

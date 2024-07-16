@@ -22,12 +22,31 @@ public class UserController {
     private final EventServiceProxy eventServiceProxy;
     private final KafkaProducerConfig kafkaProducerConfig;
 
-    @PostMapping
-    @CircuitBreaker(name = "user")
-    public String bookEvent(){
 
-        kafkaProducerConfig.kafkaTemplate().send("booking-success", "Event Booked! Oder number is 25323");
-        return "Event Booked";
+    // User code Event code
+    // call event service check availability using event code
+    // if av>=1
+        //save both booked event
+       // do kafka
+    // if not
+       // say sorry
+    @PostMapping("/{usercode}/{eventcode}")
+    @CircuitBreaker(name = "user")
+    public String bookEvent(@PathVariable("usercode")String userCode, @PathVariable("eventcode")String eventCode){
+
+        int availableTickets =  eventServiceProxy.avilableTickets(eventCode);
+
+        if(availableTickets>=1){
+            kafkaProducerConfig.kafkaTemplate().send("booking-success", "Event Booked! Oder number is 25323");
+            return "Event Booked";
+        }else{
+            return "Sorry, No space!";
+        }
+
+    }
+
+    public List<EventResponse> viewMyEvent(){
+        return eventServiceProxy.findAllEvents();
     }
 
     @GetMapping

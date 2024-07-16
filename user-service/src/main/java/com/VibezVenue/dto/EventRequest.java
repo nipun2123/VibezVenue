@@ -1,24 +1,20 @@
-package com.VibezVenue.model;
+package com.VibezVenue.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 
-@Entity
-@Table(name = "event")
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@ToString
 @Builder
-public class Event {
+@AllArgsConstructor
+@NoArgsConstructor
+public class EventRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private String eventCode;
     private String eventTitle;
     private String description;
@@ -29,8 +25,5 @@ public class Event {
     private Date endDate;
     private Time startTime;
     private Time endTime;
-    @ManyToOne()
-    @JoinColumn(name = "org_id")
-    private Org org;
-
+    private long orgID;
 }
