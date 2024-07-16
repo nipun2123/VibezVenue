@@ -1,0 +1,7 @@
+event-server = 8081
+user-server = 8082
+notification-server = 8787
+naming-server = 8761
+api-gateway = 8765
+
+
