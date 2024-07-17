@@ -3,6 +3,8 @@ package com.VibezVenue.controller;
 import com.VibezVenue.EventServiceProxy;
 import com.VibezVenue.config.KafkaProducerConfig;
 import com.VibezVenue.dto.EventResponse;
+import com.VibezVenue.model.BookedEvent;
+import com.VibezVenue.service.BookEventService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class UserController {
 
     private final EventServiceProxy eventServiceProxy;
     private final KafkaProducerConfig kafkaProducerConfig;
+    private final BookEventService bookEventService;
 
 
     // User code Event code
@@ -37,8 +40,11 @@ public class UserController {
         int availableTickets =  eventServiceProxy.avilableTickets(eventCode);
 
         if(availableTickets>=1){
-            kafkaProducerConfig.kafkaTemplate().send("booking-success", "Event Booked! Oder number is 25323");
-            return "Event Booked";
+            try {
+                return bookEventService.bookEvent(userCode, eventCode);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }else{
             return "Sorry, No space!";
         }

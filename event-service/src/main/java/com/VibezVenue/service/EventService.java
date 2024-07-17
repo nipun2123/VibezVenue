@@ -14,4 +14,7 @@ public interface EventService {
     EventResponse getEventByCode(String eventCode);
 
     int getAvailableTickets(String eventCode);
+
+    void bookEvent(String data);
+
 }

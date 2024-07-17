@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,8 +30,7 @@ public class EventController {
     @Autowired
     private final EventService eventService;
 
-    @Autowired
-    private final ObjectMapper objectMapper;
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -69,27 +70,17 @@ public class EventController {
     }
 
 
+
     @KafkaListener(topics = "booking-success", groupId = "notificationId1")
-    public void notificationListner(String data){
+    public void bookEvent(String data) {
 
-        Map<String, String> dataLoad = readJsonAsMap(data);
-
-
-
-    }
-
-
-
-
-
-    private Map<String, String> readJsonAsMap(final String json) {
-        try{
-            final TypeReference<HashMap<String,String>> typeRef = new TypeReference<HashMap<String,String>>() {};
-            return objectMapper.readValue(json, typeRef);
-        } catch(JsonProcessingException ex) {
-            throw new RuntimeException(ex);
+        try {
+            eventService.bookEvent(data);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-    }
 
+
+    }
 
 }

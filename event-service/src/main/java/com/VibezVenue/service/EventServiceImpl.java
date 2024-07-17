@@ -2,11 +2,15 @@ package com.VibezVenue.service;
 
 import com.VibezVenue.dto.EventRequest;
 import com.VibezVenue.dto.EventResponse;
+import com.VibezVenue.model.BookedEvent;
 import com.VibezVenue.model.Event;
 import com.VibezVenue.model.Org;
 import com.VibezVenue.repository.BookedEventRepository;
 import com.VibezVenue.repository.EventRepository;
 import com.VibezVenue.repository.OrgRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Service
@@ -33,6 +36,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private final BookedEventRepository bookedEventRepository;
+
+    @Autowired
+    private final ObjectMapper objectMapper;
 
     @Transactional
     @Override
@@ -122,6 +128,40 @@ public class EventServiceImpl implements EventService {
 
         return -1;
     }
+
+
+
+    @Transactional
+    @Override
+    public void bookEvent(String data) {
+
+        Map<String, String> dataLoad = readJsonAsMap(data);
+
+        bookedEventRepository.save(generateBookedEvent(dataLoad));
+
+        //Send message to Notification Service
+    }
+
+    private BookedEvent generateBookedEvent(Map<String, String> dataLoad){
+
+        BookedEvent bookedEvent = BookedEvent.builder().userCode(dataLoad.get("userCode")).bookedDateTime(LocalDateTime.parse(dataLoad.get("bookedDateTime")))
+                .event(eventRepository.findByEventCode(dataLoad.get("eventCode")).get()).build();
+
+
+        return bookedEvent;
+
+    }
+
+
+    private Map<String, String> readJsonAsMap(final String json) {
+        try{
+            final TypeReference<HashMap<String,String>> typeRef = new TypeReference<HashMap<String,String>>() {};
+            return objectMapper.readValue(json, typeRef);
+        } catch(JsonProcessingException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     private EventResponse mapToDto(Event event) {
         return EventResponse.builder()

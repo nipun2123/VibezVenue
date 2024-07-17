@@ -20,7 +20,6 @@ public class BookedEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long ticketNo;
     private String userCode;
     private LocalDateTime bookedDateTime;
     @ManyToOne()

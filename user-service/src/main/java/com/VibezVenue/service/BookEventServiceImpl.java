@@ -44,6 +44,7 @@ public class BookEventServiceImpl implements BookEventService {
     //get today date
     //save BookedEvent
     //Sent details to event service
+    @Transactional
     @Override
     public String bookEvent(String userCode, String eventCode) {
 

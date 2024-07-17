@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_management")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
