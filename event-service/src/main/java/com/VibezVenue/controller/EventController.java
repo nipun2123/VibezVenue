@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/event")
+@Slf4j
 public class EventController {
 
     @Autowired
@@ -75,6 +77,7 @@ public class EventController {
     public void bookEvent(String data) {
 
         try {
+            log.info("Data received :"+data );
             eventService.bookEvent(data);
         } catch (Exception e) {
             throw new RuntimeException(e);

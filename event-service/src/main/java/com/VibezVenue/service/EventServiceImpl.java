@@ -54,8 +54,6 @@ public class EventServiceImpl implements EventService {
                     .capacity(eventRequest.getCapacity())
                     .price(eventRequest.getPrice())
                     .location(eventRequest.getLocation())
-                    .startDate(eventRequest.getStartDate())
-                    .endDate(eventRequest.getEndDate())
                     .startTime(eventRequest.getStartTime())
                     .endTime(eventRequest.getEndTime())
                     .org(org)
@@ -96,9 +94,7 @@ public class EventServiceImpl implements EventService {
                     .description(event.getDescription())
                     .price(event.getPrice())
                     .location(event.getLocation())
-                    .startDate(event.getStartDate())
                     .startTime(event.getStartTime())
-                    .endDate(event.getEndDate())
                     .endTime(event.getEndTime())
                     .capacity(event.getCapacity())
                     .build();
@@ -137,6 +133,7 @@ public class EventServiceImpl implements EventService {
 
         Map<String, String> dataLoad = readJsonAsMap(data);
 
+        log.info("No error yet!");
         bookedEventRepository.save(generateBookedEvent(dataLoad));
 
         //Send message to Notification Service
@@ -170,9 +167,7 @@ public class EventServiceImpl implements EventService {
                 .description(event.getDescription())
                 .price(event.getPrice())
                 .location(event.getLocation())
-                .startDate(event.getStartDate())
                 .startTime(event.getStartTime())
-                .endDate(event.getEndDate())
                 .endTime(event.getEndTime())
                 .capacity(event.getCapacity())
                 .build();

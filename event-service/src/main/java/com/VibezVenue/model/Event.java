@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "event")
@@ -25,10 +26,8 @@ public class Event {
     private int capacity;
     private BigDecimal price;
     private String location;
-    private Date startDate;
-    private Date endDate;
-    private Time startTime;
-    private Time endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     @ManyToOne()
     @JoinColumn(name = "org_id")
     private Org org;

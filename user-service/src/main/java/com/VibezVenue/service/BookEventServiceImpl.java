@@ -56,6 +56,7 @@ public class BookEventServiceImpl implements BookEventService {
 
             BookedEvent savedEvent = bookedEventRepository.save(bookedEvent);
 
+            //Should send only required data to event Server
 
             try {
                 kafkaProducerConfig.kafkaTemplate().send("booking-success", objectMapper.writeValueAsString(savedEvent));

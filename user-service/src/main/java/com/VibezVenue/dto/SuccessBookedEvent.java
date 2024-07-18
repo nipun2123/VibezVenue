@@ -14,15 +14,9 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventRequest {
+public class SuccessBookedEvent {
 
     private String eventCode;
-    private String eventTitle;
-    private String description;
-    private int capacity;
-    private BigDecimal price;
-    private String location;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private long orgID;
+    private String userCode;
+    private LocalDateTime bookedDateTime;
 }
