@@ -135,7 +135,7 @@ public class EventServiceImpl implements EventService {
 
         log.info("No error yet!");
         bookedEventRepository.save(generateBookedEvent(dataLoad));
-
+        log.info("Event Saved!");
         //Send message to Notification Service
     }
 

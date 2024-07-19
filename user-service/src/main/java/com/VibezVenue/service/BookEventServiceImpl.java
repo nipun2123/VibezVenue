@@ -1,6 +1,7 @@
 package com.VibezVenue.service;
 
 import com.VibezVenue.config.KafkaProducerConfig;
+import com.VibezVenue.dto.SuccessBookedEvent;
 import com.VibezVenue.model.BookedEvent;
 import com.VibezVenue.model.User;
 import com.VibezVenue.repository.BookedEventRepository;
@@ -58,8 +59,12 @@ public class BookEventServiceImpl implements BookEventService {
 
             //Should send only required data to event Server
 
+            SuccessBookedEvent successBookedEvent = SuccessBookedEvent.builder()
+                    .eventCode(savedEvent.getEventCode()).userCode(savedEvent.getUser().getUserCode())
+                    .bookedDateTime(savedEvent.getBookedDateTime()).build();
+
             try {
-                kafkaProducerConfig.kafkaTemplate().send("booking-success", objectMapper.writeValueAsString(savedEvent));
+                kafkaProducerConfig.kafkaTemplate().send("booking-success", objectMapper.writeValueAsString(successBookedEvent));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -67,7 +72,9 @@ public class BookEventServiceImpl implements BookEventService {
         }else{
             return "User not available!";
         }
-        return "Something went wrong!";
+
+        log.info("Event Saved Successfully!");
+        return "Event Saved Successfully!";
     }
 
     private String generateTicketNumber() {
