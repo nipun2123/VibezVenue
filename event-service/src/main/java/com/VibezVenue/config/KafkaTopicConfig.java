@@ -10,6 +10,6 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic bookingSuccessTopic(){
-        return TopicBuilder.name("booking-done").build();
+        return TopicBuilder.name("booking-success").build();
     }
 }

@@ -57,14 +57,12 @@ public class BookEventServiceImpl implements BookEventService {
 
             BookedEvent savedEvent = bookedEventRepository.save(bookedEvent);
 
-            //Should send only required data to event Server
-
             SuccessBookedEvent successBookedEvent = SuccessBookedEvent.builder()
                     .eventCode(savedEvent.getEventCode()).userCode(savedEvent.getUser().getUserCode())
                     .bookedDateTime(savedEvent.getBookedDateTime()).build();
 
             try {
-                kafkaProducerConfig.kafkaTemplate().send("booking-success", objectMapper.writeValueAsString(successBookedEvent));
+                kafkaProducerConfig.kafkaTemplate().send("booking-done", objectMapper.writeValueAsString(successBookedEvent));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -73,8 +71,8 @@ public class BookEventServiceImpl implements BookEventService {
             return "User not available!";
         }
 
-        log.info("Event Saved Successfully!");
-        return "Event Saved Successfully!";
+        log.info("Event booked Successfully!");
+        return "Event booked Successfully!";
     }
 
     private String generateTicketNumber() {

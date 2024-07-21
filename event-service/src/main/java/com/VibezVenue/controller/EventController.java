@@ -73,7 +73,7 @@ public class EventController {
 
 
 
-    @KafkaListener(topics = "booking-success", groupId = "notificationId1")
+    @KafkaListener(topics = "booking-done", groupId = "bookingId")
     public void bookEvent(String data) {
 
         try {

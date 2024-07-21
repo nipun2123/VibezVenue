@@ -1,5 +1,6 @@
 package com.VibezVenue.service;
 
+import com.VibezVenue.config.KafkaProducerConfig;
 import com.VibezVenue.dto.EventRequest;
 import com.VibezVenue.dto.EventResponse;
 import com.VibezVenue.model.BookedEvent;
@@ -39,6 +40,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private final ObjectMapper objectMapper;
+
+    @Autowired
+    private final KafkaProducerConfig kafkaProducerConfig;
 
     @Transactional
     @Override
@@ -134,9 +138,12 @@ public class EventServiceImpl implements EventService {
         Map<String, String> dataLoad = readJsonAsMap(data);
 
         log.info("No error yet!");
-        bookedEventRepository.save(generateBookedEvent(dataLoad));
-        log.info("Event Saved!");
-        //Send message to Notification Service
+        BookedEvent bookedEvent = generateBookedEvent(dataLoad);
+        bookedEventRepository.save(bookedEvent);
+        log.info("Event Booked!");
+
+        kafkaProducerConfig.kafkaTemplate().send("booking-success", String.format("User id is %s booked event id is %s", bookedEvent.getUserCode(), bookedEvent.getEvent().getEventCode()));
+
     }
 
     private BookedEvent generateBookedEvent(Map<String, String> dataLoad){

@@ -14,7 +14,7 @@ public class NotificationServerApplication {
         SpringApplication.run(NotificationServerApplication.class, args);
     }
 
-    @KafkaListener(topics = "booking-success", groupId = "notificationId")
+    @KafkaListener(topics = "booking-success", groupId = "bookingId")
     public void notificationListner(String data){
 
         log.info("Notification received! "+ data);
