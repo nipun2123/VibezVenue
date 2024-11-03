@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -21,8 +22,6 @@ public class EventResponse {
     private int capacity;
     private BigDecimal price;
     private String location;
-    private Date startDate;
-    private Date endDate;
-    private Time startTime;
-    private Time endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 }
