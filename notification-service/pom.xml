@@ -8,7 +8,7 @@
         <artifactId>VibezVenue</artifactId>
         <version>3.2.4</version>
     </parent>
-    <artifactId>notification-server</artifactId>
+    <artifactId>notification-service</artifactId>
 
     <dependencies>
 
@@ -74,5 +74,21 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

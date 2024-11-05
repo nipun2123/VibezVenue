@@ -21,7 +21,7 @@
         <module>user-service</module>
         <module>naming-service</module>
         <module>api-gateway</module>
-        <module>notification-server</module>
+        <module>notification-service</module>
     </modules>
 
 
@@ -76,24 +76,27 @@
 
   <build>
       <plugins>
-       <plugin>
-          <groupId>com.google.cloud.tools</groupId>
-          <artifactId>jib-maven-plugin</artifactId>
-          <version>3.4.2</version>
-          <configuration>
-              <from>
-                  <image>eclipse-temurin:17.0.4.1_1-jre</image>
-              </from>
-              <to>
-                  <image>registry.hub.docker.com/nipun2123/${project.artifactId}:1.0.0</image>
-                  <auth>
-                      <username>nipun2123</username>
-                      <password>nipun@Docker2123</password>
-                  </auth>
-              </to>
+<!--       <plugin>-->
+<!--          <groupId>com.google.cloud.tools</groupId>-->
+<!--          <artifactId>jib-maven-plugin</artifactId>-->
+<!--          <version>3.4.2</version>-->
+<!--          <configuration>-->
+<!--              <from>-->
+<!--                  <image>eclipse-temurin:17.0.4.1_1-jre</image>-->
+<!--              </from>-->
+<!--              <to>-->
+<!--                  <image>registry.hub.docker.com/nipun2123/${project.artifactId}:1.0.0</image>-->
+<!--                  <auth>-->
+<!--                      <username>nipun2123</username>-->
+<!--                      <password>nipun@Docker2123</password>-->
+<!--                  </auth>-->
+<!--              </to>-->
 
-          </configuration>
-       </plugin>
+<!--          </configuration>-->
+<!--       </plugin>-->
+
+
+
       </plugins>
   </build>
 

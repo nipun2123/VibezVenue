@@ -8,10 +8,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 
 @SpringBootApplication
 @Slf4j
-public class NotificationServerApplication {
+public class NotificationServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NotificationServerApplication.class, args);
+        SpringApplication.run(NotificationServiceApplication.class, args);
     }
 
     @KafkaListener(topics = "booking-success", groupId = "bookingId")
