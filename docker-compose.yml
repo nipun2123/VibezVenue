@@ -10,7 +10,7 @@ services:
       POSTGRESS_DB: event-service
     volumes:
       - postgres-data:/var/lib/postgresql/data
-
+      -
   pgadmin:
     image: dpage/pgadmin4
     environment:
