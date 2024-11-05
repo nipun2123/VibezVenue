@@ -1,4 +1,4 @@
-package com.VibezVenue.controller;
+package com.VibezVenue;
 
 import com.VibezVenue.dto.EventRequest;
 import com.VibezVenue.dto.EventResponse;
